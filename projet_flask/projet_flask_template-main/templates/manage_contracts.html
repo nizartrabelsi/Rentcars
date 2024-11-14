@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Contracts{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Manage Rental Contracts</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Contract ID</th>
+                <th>User</th>
+                <th>Car</th>
+                <th>Rent Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contract in contracts %}
+                <tr>
+                    <td>{{ contract.id }}</td>
+                    <td>{{ contract.username }}</td>
+                    <td>{{ contract.make }} {{ contract.model }}</td>
+                    <td>{{ contract.rental_date }}</td>
+                    <td>
+                        <a href="{{ url_for('delete_contract', contract_id=contract.id) }}" 
+                           class="btn btn-danger btn-sm" 
+                           onclick="return confirm('Are you sure you want to delete this contract?');">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
